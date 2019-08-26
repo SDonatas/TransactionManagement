@@ -1,3 +1,1 @@
-# DanWhite
-# TransactionManagement
 # TransactionManagement
