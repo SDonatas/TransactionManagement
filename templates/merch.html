@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block container %}
+
+<div class='AddNewMerchant'>
+<div class="row">
+  <div class="col-sm">
+    <p></p>
+    <h4 align="left">Merchants</h4>
+
+  </div>
+
+</div>
+
+
+  <div class="row">
+    <div class="col-sm">
+
+    <p></p>
+    <form method="post" action="/merchants">
+      <div class="form-group">
+        <label for="inputMerchant">Add New Merchant</label>
+        <input type="text" class="form-control" id="NewMerchant" placeholder="Merchant Name" name="NewMerchant">
+      </div>
+      <button type="submit" id="submit" class="btn btn-primary" onclick="on()">Submit</button>
+    </form>
+
+
+    </div>
+  <div class="col-sm">
+
+    <p></p>
+    <h4 align="left"></h4>
+    <p></p>
+    <form method="POST" action="/merchants/upload" enctype=multipart/form-data>
+      <div class="form-group">
+        <label for="inputMerchant">Import Merchants From File</label>
+        <input type=file name=file class="form-control">
+      </div>
+      <input type=submit value=Upload class="btn btn-primary" onclick="on()">
+    </form>
+
+
+  </div>
+
+</div>
+</div>
+
+<p><a>
+              {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                
+                {% for message in messages %}
+                 {{ message }}
+                {% endfor %}
+              {% else %}
+             <br>
+              {% endif %}
+            {% endwith %}
+                </a></p>
+
+
+<div class='ListOfCurrentMerchants'>
+<form method="post" action="/merchants">
+
+<table class="table">
+	<thead>
+    <tr>
+      <th width="50%" scope="col">Merchant Name</th>
+      <th width="50%" scope="col"><button type="submit" id="submit" class="btn btn-primary" onclick="on()">Delete Selected</button></th>
+    </tr>
+  </thead>
+	<tbody>
+    {% if Merchants | length > 0 %}
+    <tr>
+      <td width="50%">Select All</td>
+      <td width="50%"><input class="form-check-input" type="checkbox" id="checkAll"></td>
+
+    </tr>
+    {% else %}
+    <tr>
+      <td width="50%">No merchants imported...</td>
+      <td width="50%"></td>
+
+    </tr>
+    {% endif %}
+{% for item in Merchants %}
+<tr>
+	<td width="50%">{{item}}</td>
+	<td width="50%"><input class="form-check-input" type="checkbox" value="{{item}}" id="defaultCheck1" name="defaultCheck1"></td>
+
+
+
+</tr>
+{% endfor %}
+
+</tbody>
+</table>
+</form>
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+    {% for key, value in pageDic.items() %}
+
+    <li class="page-item"><a class="page-link" href={{value}}>Page {{key}}</a></li>
+    {% endfor %}
+  </ul>
+</nav>
+
+
+
+
+
+</div>
+
+{% endblock %}
+
+{% block JS_Script %}
+$("#checkAll").click(function () {
+    $(".form-check-input").prop('checked', $(this).prop('checked'));
+    console.log("Ran")
+});
+
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block container %}
+
+<div class='AddNewMerchant'>
+<p></p>
+<h4 align="left">Card Schemes</h4>
+<p></p>
+<form method="post" action="/cardSchemes">
+  <div class="form-group">
+    <label for="inputMerchant">Add New Card Scheme</label>
+    <input type="text" class="form-control" id="NewCardScheme" placeholder="Card Scheme Name" name="NewCardScheme">
+  </div>
+  <button type="submit" id="submit" class="btn btn-primary" onclick="on()">Submit</button>
+</form>
+
+</div>
+
+<p></p>
+
+<div class='ListOfCurrentMerchants'>
+<form method="post" action="/cardSchemes">
+
+<table class="table">
+	<thead>
+    <tr>
+      <th width="50%" scope="col">Card Scheme Name</th>
+      <th width="50%" scope="col"><button type="submit" id="submit" class="btn btn-primary" onclick="on()">Delete Selected</button></th>
+    </tr>
+  </thead>
+	<tbody>
+    {% if CardSchemes | length > 0 %}
+    <tr>
+      <td width="50%">Select All</td>
+      <td width="50%"><input class="form-check-input" type="checkbox" value="{{item}}" id="checkAll"></td>
+
+    </tr>
+    {% else %}
+    <tr>
+      <td width="50%">No merchants imported...</td>
+      <td width="50%"></td>
+
+    </tr>
+    {% endif %}
+
+
+{% for item in CardSchemes %}
+<tr>
+	<td width="50%">{{item}}</td>
+	<td width="50%"><input class="form-check-input" type="checkbox" value="{{item}}" id="defaultCheck1" name="defaultCheck1"></td>
+
+
+
+</tr>
+{% endfor %}
+
+</tbody>
+</table>
+</form>
+
+
+
+</div>
+
+{% endblock %}
+
+
+{% block JS_Script %}
+$("#checkAll").click(function () {
+    $(".form-check-input").prop('checked', $(this).prop('checked'));
+    console.log("Ran")
+});
+
+{% endblock %}

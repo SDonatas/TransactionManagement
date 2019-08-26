@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block container %}
+
+<div class='exportData'>
+<p></p>
+<h4 align="left">Export / Archive Data</h4>
+<p></p>
+<form method="post" action="/export">
+  <div class="form-group">
+    <input type="hidden" class="form-control" id="exportData" placeholder="exportData" name="exportData" value="exportData">
+    <button type="submit" id="submit" class="btn btn-primary" onclick="on()">Export Data</button>
+<!--
+    <select id="fileSelected" name="fileSelected">
+      <option selected value="All">All Data</option>
+      {% for fileRow in importHistory %}
+      <option value={{fileRow[4]}}>{{fileRow[1]}}</option>
+      {% endfor %}
+
+    </select>
+
+  -->
+
+  </div>
+
+</form>
+
+</div>
+
+<a>
+              {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                
+                {% for message in messages %}
+                 {{ message }}
+                {% endfor %}
+                {% else %}
+                <br>
+        
+              {% endif %}
+            {% endwith %}
+                </a>
+
+<div class='listOfHistoricExports'>
+  <form method="post" action="/export">
+
+
+<table class="table">
+	<thead>
+    <tr>
+      <th scope="col">Export Date</th>
+      <th scope="col">Success?</th>
+      <th scope="col">Total Records</th>
+      <th scope="col">Filename</th>
+      <th scope="col"><button type="submit" id="submit" class="btn btn-primary" onclick="on()">Delete Selected</button></th>
+
+    </tr>
+  </thead>
+	<tbody>
+    {% if exportHistory | length > 0 %}
+    <tr>
+      <td>Select All</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td><input class="form-check-input" type="checkbox" id="checkAll"></td>
+
+    </tr>
+
+    {% else %}
+
+    <tr>
+      <td>No Exports</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+
+    </tr>
+
+    {% endif %}
+
+
+{% for item in exportHistory %}
+<tr>
+	<td>{{item[0]}}</td>
+  <td>{{item[1]}}</td>
+  <td>{{item[2]}}</td>
+
+  {% if item[3] != None %}
+  <td><a href='/exportDownload?file={{item[3]}}'>{{item[3]}}</a></td>
+  {% else %}
+  <td>{{item[3]}}</td>
+  {% endif %}
+
+  <td><input class="form-check-input" type="checkbox" value="{{item[4]}}" id="defaultCheck1" name="defaultCheck1"></td>
+
+
+
+
+</tr>
+{% endfor %}
+
+</tbody>
+</table>
+</form>
+
+
+
+</div>
+
+{% endblock %}
+
+{% block JS_Script %}
+$("#checkAll").click(function () {
+    $(".form-check-input").prop('checked', $(this).prop('checked'));
+    console.log("Ran")
+});
+
+{% endblock %}

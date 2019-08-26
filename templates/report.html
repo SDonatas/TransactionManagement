@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block container %}
+
+<p></p>
+<h4 align="left">Report Summary</h4>
+{% if Reportcolumns != [] %}
+
+<p><a href="/report/download">Download csv</a></p>
+{% else %}
+<p><a></a></p>
+{% endif %}
+
+<p><br></p>
+{% for key, value in data.items() %}
+<p></p>	
+<h5>Transaction period: {{key}}</h5>
+<table class="table" width="100%">
+<thead>
+	{% for hcol in Reportcolumns %}
+	<th scope="col" width="{{75 / Reportcolumns|length if hcol != 'Merchant Name' else 25}}%">{{hcol}}</th>
+	{% endfor %}
+</thead>
+<tbody>
+{% for row in value %}
+<tr>
+	{% for col in row %}
+	<td>{{col}}</td>
+	{% endfor %}
+	
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+
+{% endfor %}
+
+
+
+
+{% endblock %}
